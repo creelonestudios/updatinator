@@ -94,4 +94,8 @@ for(const server of config) {
 		const latestVersion = await HangarAPI.getLatestVersion(project.author, project.slug, project.channel);
 		await HangarAPI.downloadVersion(project.author, project.slug, latestVersion, currentServerConfig.type.toUpperCase(), join("plugins", project.slug + ".jar"));
 	}
+	for(const url of currentServerConfig.plugin_urls) {
+		const file = url.split("/").pop();
+		await download(url, join("plugins", file));
+	}
 }
