@@ -6,6 +6,7 @@ async function download(url, file) {
 }
 
 const MC_VERSION = "1.19.4";
+const SPIGET_RESOURCES = [];
 
 class PaperAPI {
 	static async getProjects() {
@@ -25,6 +26,10 @@ class PaperAPI {
 	}
 }
 
+async function downloadSpigetResource(id, file) {
+	await download(`https://api.spiget.org/v2/resources/${id}/download`, file);
+}
+
 async function updatePaper() {
 	const builds = await PaperAPI.getBuildsForVersion("paper", MC_VERSION);
 	const latestBuild = builds.builds[builds.builds.length - 1];
@@ -33,3 +38,4 @@ async function updatePaper() {
 }
 
 updatePaper();
+for(const resource of SPIGET_RESOURCES) downloadSpigetResource(resource.id, resource.file);
