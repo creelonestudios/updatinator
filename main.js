@@ -1,12 +1,12 @@
-import { writeFile } from "fs/promises";
+import { mkdir, stat, writeFile } from "fs/promises";
+import { join } from "path";
+
+const config = JSON.parse(await readFile("config.json"));
 
 async function download(url, file) {
 	console.log(`Downloading ${url} into ${file}`);
-	await writeFile(file, Buffer.from(await fetch(url).then(res => res.arrayBuffer())));
+	await writeFile(join(config.server_dir, file), Buffer.from(await fetch(url).then(res => res.arrayBuffer())));
 }
-
-const MC_VERSION = "1.19.4";
-const SPIGET_RESOURCES = [];
 
 class PaperAPI {
 	static async getProjects() {
@@ -26,16 +26,36 @@ class PaperAPI {
 	}
 }
 
+async function exists(path) {
+	try {
+		await stat(path);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+async function createBasicServerStructure() {
+	if(!await exists(config.server_dir)) await mkdir(config.server_dir);
+	if(!await exists(join(config.server_dir, "plugins"))) await mkdir(join(config.server_dir, "plugins"));
+}
+
+async function acceptEULA() {
+	await writeFile(join(config.server_dir, "eula.txt"), "eula=true");
+}
+
 async function downloadSpigetResource(id, file) {
 	await download(`https://api.spiget.org/v2/resources/${id}/download`, file);
 }
 
 async function updatePaper() {
-	const builds = await PaperAPI.getBuildsForVersion("paper", MC_VERSION);
+	const builds = await PaperAPI.getBuildsForVersion("paper", config.mc_version);
 	const latestBuild = builds.builds[builds.builds.length - 1];
-	const buildInfo = await PaperAPI.getBuildInfo("paper", MC_VERSION, latestBuild);
-	await PaperAPI.downloadBuild("paper", MC_VERSION, latestBuild, buildInfo.downloads.application.name, "paper.jar");
+	const buildInfo = await PaperAPI.getBuildInfo("paper", config.mc_version, latestBuild);
+	await PaperAPI.downloadBuild("paper", config.mc_version, latestBuild, buildInfo.downloads.application.name, "paper.jar");
 }
 
-updatePaper();
-for(const resource of SPIGET_RESOURCES) downloadSpigetResource(resource.id, resource.file);
+await createBasicServerStructure();
+await acceptEULA();
+await updatePaper();
+for(const resource of config.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
