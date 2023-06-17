@@ -1,5 +1,9 @@
-{
-	"server_dir": "server",
-	"mc_version": "1.19.4",
-	"spiget_resources": [1997]
-}
+[
+	{
+		"type": "paper",
+		"server_dir": "server",
+		"mc_version": "1.19.4",
+		"spiget_resources": [1997],
+		"configs": "smp"
+	}
+]

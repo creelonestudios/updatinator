@@ -1,12 +1,13 @@
-import { mkdir, stat, writeFile, readFile } from "fs/promises";
-import { join } from "path";
+import { mkdir, stat, writeFile, readFile, copyFile, readdir } from "fs/promises";
+import { join, parse } from "path";
 import { createHash } from "crypto";
 
 const config = JSON.parse(await readFile("bootstrap/config.json"));
+let currentServerConfig;
 
 async function download(url, file) {
 	console.log(`Downloading ${url} into ${file}`);
-	await writeFile(join(config.server_dir, file), Buffer.from(await fetch(url).then(res => res.arrayBuffer())));
+	await writeFile(join(currentServerConfig.server_dir, file), Buffer.from(await fetch(url).then(res => res.arrayBuffer())));
 }
 
 async function sha256(path) {
@@ -43,32 +44,41 @@ async function exists(path) {
 }
 
 async function createBasicServerStructure() {
-	if(!await exists(config.server_dir)) await mkdir(config.server_dir);
-	if(!await exists(join(config.server_dir, "plugins"))) await mkdir(join(config.server_dir, "plugins"));
+	if(!await exists(currentServerConfig.server_dir)) await mkdir(currentServerConfig.server_dir);
+	if(!await exists(join(currentServerConfig.server_dir, "plugins"))) await mkdir(join(currentServerConfig.server_dir, "plugins"));
 }
 
 async function acceptEULA() {
-	await writeFile(join(config.server_dir, "eula.txt"), "eula=true");
+	await writeFile(join(currentServerConfig.server_dir, "eula.txt"), "eula=true");
 }
 
 async function downloadSpigetResource(id, file) {
 	await download(`https://api.spiget.org/v2/resources/${id}/download`, file);
 }
 
-async function updatePaper() {
-	const builds = await PaperAPI.getBuildsForVersion("paper", config.mc_version);
+async function updatePaper(project) {
+	const builds = await PaperAPI.getBuildsForVersion(project, currentServerConfig.mc_version);
 	const latestBuild = builds.builds[builds.builds.length - 1];
-	const buildInfo = await PaperAPI.getBuildInfo("paper", config.mc_version, latestBuild);
-	if(await exists(join(config.server_dir, "paper.jar")) && await sha256(join(config.server_dir, "paper.jar")) == buildInfo.downloads.application.sha256) return;
-	await PaperAPI.downloadBuild("paper", config.mc_version, latestBuild, buildInfo.downloads.application.name, "paper.jar");
+	const buildInfo = await PaperAPI.getBuildInfo(project, currentServerConfig.mc_version, latestBuild);
+	if(await exists(join(currentServerConfig.server_dir, `${project}.jar`)) && await sha256(join(currentServerConfig.server_dir, `${project}.jar`)) == buildInfo.downloads.application.sha256) return;
+	await PaperAPI.downloadBuild(project, currentServerConfig.mc_version, latestBuild, buildInfo.downloads.application.name, `${project}.jar`);
 }
 
-async function copyServerProperties() {
-	if(await exists("bootstrap/server.properties")) await writeFile(join(config.server_dir, "server.properties"), await readFile("bootstrap/server.properties"));
+async function copyConfigs() {
+	const dir = join("bootstrap", currentServerConfig.configs);
+	const files = await readdir(dir);
+	for(const file of files) {
+		const f = parse(file);
+		await mkdir(join(currentServerConfig.server_dir, f.dir), { recursive: true });
+		await copyFile(join(dir, file), join(currentServerConfig.server_dir, file));
+	}
 }
 
-await createBasicServerStructure();
-await acceptEULA();
-await updatePaper();
-await copyServerProperties();
-for(const resource of config.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
+for(const server of config) {
+	currentServerConfig = server;
+	await createBasicServerStructure();
+	await acceptEULA();
+	await updatePaper();
+	await copyConfigs();
+	for(const resource of config.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
+}
