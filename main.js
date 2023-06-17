@@ -74,7 +74,7 @@ async function updatePaper(project) {
 }
 
 async function copyConfigs() {
-	const dir = join("bootstrap", currentServerConfig.configs);
+	const dir = join("bootstrap", currentServerConfig.template);
 	const files = await readdir(dir);
 	for(const file of files) {
 		const f = parse(file);
@@ -89,13 +89,19 @@ for(const server of config) {
 	await acceptEULA();
 	await updatePaper(currentServerConfig.type);
 	await copyConfigs();
-	for(const resource of currentServerConfig.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
-	for(const project of currentServerConfig.hangar_projects) {
-		const latestVersion = await HangarAPI.getLatestVersion(project.author, project.slug, project.channel);
-		await HangarAPI.downloadVersion(project.author, project.slug, latestVersion, currentServerConfig.type.toUpperCase(), join("plugins", project.slug + ".jar"));
+	if(currentServerConfig.spiget_resources) {
+		for(const resource of currentServerConfig.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
 	}
-	for(const url of currentServerConfig.plugin_urls) {
-		const file = url.split("/").pop();
-		await download(url, join("plugins", file));
+	if(currentServerConfig.hangar_projects) {
+		for(const project of currentServerConfig.hangar_projects) {
+			const latestVersion = await HangarAPI.getLatestVersion(project.author, project.slug, project.channel);
+			await HangarAPI.downloadVersion(project.author, project.slug, latestVersion, currentServerConfig.type.toUpperCase(), join("plugins", project.slug + ".jar"));
+		}
+	}
+	if(currentServerConfig.plugin_urls) {
+		for(const url of currentServerConfig.plugin_urls) {
+			const file = url.split("/").pop();
+			await download(url, join("plugins", file));
+		}
 	}
 }
