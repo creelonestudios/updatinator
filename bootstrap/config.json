@@ -4,6 +4,7 @@
 		"server_dir": "server",
 		"mc_version": "1.19.4",
 		"spiget_resources": [1997],
+		"hangar_projects": [{"author": "ViaVersion", "slug": "ViaVersion", "channel": "Release"}],
 		"configs": "smp"
 	}
 ]

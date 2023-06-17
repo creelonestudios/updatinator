@@ -34,6 +34,15 @@ class PaperAPI {
 	}
 }
 
+class HangarAPI {
+	static async getLatestVersion(author, slug, channel) {
+		return (await fetch(`https://hangar.papermc.io/api/v1/projects/${author}/${slug}/latest?channel=${channel}`).then(res => res.text()));
+	}
+	static async downloadVersion(author, slug, version, platform, path) {
+		await download(`https://hangar.papermc.io/api/v1/projects/${author}/${slug}/versions/${version}/${platform}/download`, path);
+	}
+}
+
 async function exists(path) {
 	try {
 		await stat(path);
@@ -78,7 +87,11 @@ for(const server of config) {
 	currentServerConfig = server;
 	await createBasicServerStructure();
 	await acceptEULA();
-	await updatePaper();
+	await updatePaper(currentServerConfig.type);
 	await copyConfigs();
-	for(const resource of config.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
+	for(const resource of currentServerConfig.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
+	for(const project of currentServerConfig.hangar_projects) {
+		const latestVersion = await HangarAPI.getLatestVersion(project.author, project.slug, project.channel);
+		await HangarAPI.downloadVersion(project.author, project.slug, latestVersion, currentServerConfig.type.toUpperCase(), join("plugins", project.slug + ".jar"));
+	}
 }
