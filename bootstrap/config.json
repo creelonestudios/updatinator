@@ -19,8 +19,14 @@
 		"mc_version": "1.19.4",
 		"server_dir": "/home/j0code/defined/creative",
 		"plugin_urls": [{
-			"url": "http://webts3:801/p2v7.jar",
+			"url": "http://webts3:801/mcplugins/p2v7.jar",
 			"file": "p2.jar"
+		}, {
+			"url": "http://webts3:801/mcplugins/dismine.jar",
+			"file": "Dismine.jar"
+		}, {
+			"url": "http://webts3:801/mcplugins/containerplus.jar",
+			"file": "containerplus.jar"
 		}, {
 			"url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/FastAsyncWorldEdit-Bukkit-2.6.4-SNAPSHOT-486.jar",
 			"file": "fawe.jar"
