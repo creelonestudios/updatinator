@@ -13,5 +13,15 @@
 			"file": "LuckPerms.jar"
 		}],
 		"template": ["proxy"]
+	},
+	{
+		"type": "paper",
+		"mc_version": "1.19.4",
+		"server_dir": "/home/j0code/defined/creative",
+		"plugin_urls": [{
+			"url": "http://webts3:801/p2v7.jar",
+			"file": "p2.jar"
+		}],
+		"template": ["creative"]
 	}
 ]
