@@ -22,7 +22,7 @@
 			"url": "http://webts3:801/p2v7.jar",
 			"file": "p2.jar"
 		}, {
-			"url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/FastAsyncWorldEdit-Bukkit-2.6.4-SNAPSHOT-484.jar",
+			"url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/FastAsyncWorldEdit-Bukkit-2.6.4-SNAPSHOT-486.jar",
 			"file": "fawe.jar"
 		}, {
 			"url": "https://download.luckperms.net/1502/bukkit/loader/LuckPerms-Bukkit-5.4.88.jar",
