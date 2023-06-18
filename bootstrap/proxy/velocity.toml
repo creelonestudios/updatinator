@@ -83,12 +83,12 @@ try = [
 
 [forced-hosts]
 # Configure your forced hosts here.
-# "lobby.example.com" = [
-#     "lobby"
-# ]
-# "factions.example.com" = [
-#     "factions"
-# ]
+"creative.cohalejoja.selfhost.eu" = [ # j0: to join directly, no /server needed hehe
+    "creative"
+]
+"smp.cohalejoja.selfhost.eu" = [
+    "smp"
+]
 # "minigames.example.com" = [
 #     "minigames"
 # ]
