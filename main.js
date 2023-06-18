@@ -1,4 +1,4 @@
-import { mkdir, stat, writeFile, readFile, copyFile, readdir } from "fs/promises";
+import { mkdir, stat, writeFile, readFile, copyFile, readdir, cp } from "fs/promises";
 import { join, parse } from "path";
 import { createHash } from "crypto";
 
@@ -87,11 +87,7 @@ async function copyConfigs() {
 	for(const template of currentServerConfig.template) {
 		const dir = join("bootstrap", template);
 		const files = await readdir(dir);
-		for(const file of files) {
-			const f = parse(file);
-			await mkdir(join(currentServerConfig.server_dir, f.dir), { recursive: true });
-			await copyFile(join(dir, file), join(currentServerConfig.server_dir, file));
-		}
+		await cp(dir, currentServerConfig.server_dir, { recursive: true });
 	}
 }
 
