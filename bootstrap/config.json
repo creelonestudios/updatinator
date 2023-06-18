@@ -22,6 +22,7 @@
 			"url": "http://webts3:801/p2v7.jar",
 			"file": "p2.jar"
 		}],
+		"spiget_resources": [13932],
 		"template": ["creative"]
 	}
 ]
