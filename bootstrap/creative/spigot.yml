@@ -18,7 +18,7 @@ settings:
   restart-script: ./start.sh
   save-user-cache-on-stop-only: false
   sample-count: 12
-  bungeecord: false
+  bungeecord: true
   user-cache-size: 1000
   moved-wrongly-threshold: 0.0625
   moved-too-quickly-multiplier: 10.0
