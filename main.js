@@ -53,7 +53,7 @@ async function exists(path) {
 }
 
 async function createBasicServerStructure() {
-	if(!await exists(currentServerConfig.server_dir)) await mkdir(currentServerConfig.server_dir);
+	if(!await exists(currentServerConfig.server_dir)) await mkdir(currentServerConfig.server_dir, { recursive: true });
 	if(!await exists(join(currentServerConfig.server_dir, "plugins"))) await mkdir(join(currentServerConfig.server_dir, "plugins"));
 }
 
@@ -73,6 +73,16 @@ async function updatePaper(project) {
 	await PaperAPI.downloadBuild(project, currentServerConfig.mc_version, latestBuild, buildInfo.downloads.application.name, `${project}.jar`);
 }
 
+async function updateVelocity() {
+	const versions = await PaperAPI.getProject("velocity");
+	const latestVersion = versions.versions[versions.versions.length - 1];
+	const builds = await PaperAPI.getBuildsForVersion("velocity", latestVersion);
+	const latestBuild = builds.builds[builds.builds.length - 1];
+	const buildInfo = await PaperAPI.getBuildInfo("velocity", latestVersion, latestBuild);
+	if(await exists(join(currentServerConfig.server_dir, "velocity.jar")) && await sha256(join(currentServerConfig.server_dir, "velocity.jar")) == buildInfo.downloads.application.sha256) return;
+	await PaperAPI.downloadBuild("velocity", latestVersion, latestBuild, buildInfo.downloads.application.name, "velocity.jar");
+}
+
 async function copyConfigs() {
 	for(const template of currentServerConfig.template) {
 		const dir = join("bootstrap", template);
@@ -88,8 +98,12 @@ async function copyConfigs() {
 for(const server of config) {
 	currentServerConfig = server;
 	await createBasicServerStructure();
-	await acceptEULA();
-	await updatePaper(currentServerConfig.type);
+	if(currentServerConfig.type == "velocity") {
+		await updateVelocity();
+	} else {
+		await acceptEULA();
+		await updatePaper(currentServerConfig.type);
+	}
 	await copyConfigs();
 	if(currentServerConfig.spiget_resources) {
 		for(const resource of currentServerConfig.spiget_resources) await downloadSpigetResource(resource, join("plugins", resource + ".jar"));
@@ -102,8 +116,12 @@ for(const server of config) {
 	}
 	if(currentServerConfig.plugin_urls) {
 		for(const url of currentServerConfig.plugin_urls) {
-			const file = url.split("/").pop();
-			await download(url, join("plugins", file));
+			if(typeof url == "string") {
+				const file = url.split("/").pop();
+				await download(url, join("plugins", file));
+			} else {
+				await download(url.url, join("plugins", url.file));
+			}
 		}
 	}
 }

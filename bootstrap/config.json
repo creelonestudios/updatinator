@@ -1,11 +1,14 @@
 [
 	{
-		"type": "paper",
-		"server_dir": "server",
-		"mc_version": "1.19.4",
-		"spiget_resources": [1997],
-		"hangar_projects": [{"author": "ViaVersion", "slug": "ViaVersion", "channel": "Release"}],
-		"plugin_urls": ["http://lol.com/plugin.jar"],
-		"template": ["smp"]
+		"type": "velocity",
+		"server_dir": "server/proxy",
+		"plugin_urls": [{
+			"url": "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/velocity",
+			"file": "Geyser.jar"
+		}, {
+			"url": "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/velocity",
+			"file": "Floodgate.jar"
+		}],
+		"template": []
 	}
 ]
