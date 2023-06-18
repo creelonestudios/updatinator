@@ -6,6 +6,6 @@
 		"spiget_resources": [1997],
 		"hangar_projects": [{"author": "ViaVersion", "slug": "ViaVersion", "channel": "Release"}],
 		"plugin_urls": ["http://lol.com/plugin.jar"],
-		"template": "smp"
+		"template": ["smp"]
 	}
 ]
