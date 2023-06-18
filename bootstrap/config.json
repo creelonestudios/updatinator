@@ -1,13 +1,16 @@
 [
 	{
 		"type": "velocity",
-		"server_dir": "server/proxy",
+		"server_dir": "/home/j0code/defined/proxy",
 		"plugin_urls": [{
 			"url": "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/velocity",
 			"file": "Geyser.jar"
 		}, {
 			"url": "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/velocity",
 			"file": "Floodgate.jar"
+		}, {
+			"url": "https://download.luckperms.net/1502/velocity/LuckPerms-Velocity-5.4.88.jar",
+			"file": "LuckPerms.jar"
 		}],
 		"template": []
 	}
