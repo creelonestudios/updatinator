@@ -21,8 +21,10 @@
 		"plugin_urls": [{
 			"url": "http://webts3:801/p2v7.jar",
 			"file": "p2.jar"
+		}, {
+			"url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/FastAsyncWorldEdit-Bukkit-2.6.4-SNAPSHOT-484.jar",
+			"file": "fawe.jar"
 		}],
-		"spiget_resources": [13932],
 		"template": ["creative"]
 	}
 ]
