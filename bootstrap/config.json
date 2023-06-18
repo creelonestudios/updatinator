@@ -12,6 +12,6 @@
 			"url": "https://download.luckperms.net/1502/velocity/LuckPerms-Velocity-5.4.88.jar",
 			"file": "LuckPerms.jar"
 		}],
-		"template": []
+		"template": ["proxy"]
 	}
 ]
