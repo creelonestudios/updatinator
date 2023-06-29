@@ -12,6 +12,7 @@
 			"url": "https://download.luckperms.net/1502/velocity/LuckPerms-Velocity-5.4.88.jar",
 			"file": "LuckPerms.jar"
 		}],
+		"spiget_resources": ["19254", "27448"],
 		"template": ["proxy"]
 	},
 	{
