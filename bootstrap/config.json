@@ -9,7 +9,7 @@
 			"url": "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/velocity",
 			"file": "Floodgate.jar"
 		}, {
-			"url": "https://download.luckperms.net/1502/velocity/LuckPerms-Velocity-5.4.88.jar",
+			"url": "https://download.luckperms.net/1512/velocity/LuckPerms-Velocity-5.4.98.jar",
 			"file": "LuckPerms.jar"
 		}],
 		"spiget_resources": ["19254", "27448"],
@@ -32,7 +32,7 @@
 			"url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/FastAsyncWorldEdit-Bukkit-2.6.4-SNAPSHOT-486.jar",
 			"file": "fawe.jar"
 		}, {
-			"url": "https://download.luckperms.net/1502/bukkit/loader/LuckPerms-Bukkit-5.4.88.jar",
+			"url": "https://download.luckperms.net/1512/bukkit/loader/LuckPerms-Bukkit-5.4.98.jar",
 			"file": "LuckPerms.jar"
 		}],
 		"template": ["creative"]
