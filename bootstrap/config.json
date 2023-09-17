@@ -11,7 +11,7 @@
 		}],
 		"template": ["proxy"],
 		"luckperms": true,
-		"spiget_resources": ["19254", "27448"],
+		"spiget_resources": ["19254", "27448"]
 	},
 	{
 		"type": "paper",
