@@ -7,7 +7,10 @@ let currentServerConfig;
 
 async function download(url, file) {
 	console.log(`Downloading ${url} into ${file}`);
-	await writeFile(join(currentServerConfig.server_dir, file), Buffer.from(await fetch(url).then(res => res.arrayBuffer())));
+	const res = await fetch(url);
+	if(res.status != 200) throw new Error(`Failed to download ${url}: ${res.status} ${res.statusText}`);
+	const buf = Buffer.from(await res.arrayBuffer());
+	await writeFile(join(currentServerConfig.server_dir, file), buf);
 }
 
 async function sha256(path) {
@@ -91,6 +94,16 @@ async function copyConfigs() {
 	}
 }
 
+async function luckperms() {
+	const all = await fetch("https://metadata.luckperms.net/data/all").then(res => res.json());
+	const LUT = {
+		velocity: "velocity",
+		paper: "bukkit"
+	}
+	const latest = all.downloads[LUT[currentServerConfig.type]];
+	await download(latest, join("plugins", "LuckPerms.jar"));
+}
+
 for(const server of config) {
 	currentServerConfig = server;
 	await createBasicServerStructure();
@@ -120,4 +133,5 @@ for(const server of config) {
 			}
 		}
 	}
+	if(currentServerConfig.luckperms) await luckperms();
 }

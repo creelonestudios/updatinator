@@ -8,11 +8,9 @@
 		}, {
 			"url": "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/velocity",
 			"file": "Floodgate.jar"
-		}, {
-			"url": "https://download.luckperms.net/1502/velocity/LuckPerms-Velocity-5.4.88.jar",
-			"file": "LuckPerms.jar"
 		}],
-		"template": ["proxy"]
+		"template": ["proxy"],
+		"luckperms": true
 	},
 	{
 		"type": "paper",
@@ -27,13 +25,13 @@
 		}, {
 			"url": "http://webts3:801/mcplugins/containerplus.jar",
 			"file": "containerplus.jar"
-		}, {
-			"url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/FastAsyncWorldEdit-Bukkit-2.6.4-SNAPSHOT-486.jar",
-			"file": "fawe.jar"
-		}, {
-			"url": "https://download.luckperms.net/1502/bukkit/loader/LuckPerms-Bukkit-5.4.88.jar",
-			"file": "LuckPerms.jar"
 		}],
-		"template": ["creative"]
+		"template": ["creative"],
+		"hangar_projects": [{
+			"slug": "FastAsyncWorldEdit",
+			"author": "IntellectualSites",
+			"channel": "Release"
+		}],
+		"luckperms": true
 	}
 ]
