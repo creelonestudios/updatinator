@@ -10,7 +10,8 @@
 			"file": "Floodgate.jar"
 		}],
 		"template": ["proxy"],
-		"luckperms": true
+		"luckperms": true,
+		"spiget_resources": ["19254", "27448"],
 	},
 	{
 		"type": "paper",
